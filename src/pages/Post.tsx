@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchPostByid } from "../store/reducers/post/post.action";
 import {
   postSelector,
   isLoadingSelector,
+  errorMessageSelector,
 } from "../store/reducers/post/post.selector";
 
 export default function Post() {
@@ -14,6 +15,7 @@ export default function Post() {
 
   const post = useSelector(postSelector);
   const isloading = useSelector(isLoadingSelector);
+  const errorMessage = useSelector(errorMessageSelector);
 
   useEffect(() => {
     if (id) {
@@ -37,12 +39,16 @@ export default function Post() {
           </p>
         </div>
       )}
-      <div className="row">
-        <div className="col-12">
-          <h1>{post?.title}</h1>
+
+      <div className="bg-primary-soft p-4 rounded-3">
+        <div className="row">
+          <div className="col-12">
+            <h1>{post?.title}</h1>
+          </div>
+          <p className="lead">{post?.body}</p>
         </div>
-        <p className="lead">{post?.body}</p>
       </div>
+
       <hr></hr>
       <div>
         {isloading && (
@@ -74,10 +80,7 @@ export default function Post() {
           </div>
         )}
         <div>
-          <h3>
-            {post?.comments?.length !== 0 ? post?.comments?.length + 1 : 0}{" "}
-            comments
-          </h3>
+          <h3>{post?.comments ? post?.comments?.length + 1 : 0} comments</h3>
           {post.comments?.map((comment) => (
             <div className="my-4 d-flex" key={comment.id}>
               <div>
@@ -93,6 +96,18 @@ export default function Post() {
             </div>
           ))}
         </div>
+        {errorMessage && (
+          <div className="col-12 text-center">
+            <h2>sorry, something is down!</h2>
+            <p>
+              Either something went wrong or this page doesn't exist anymore.
+              Please, try later!
+            </p>
+            <Link to="/" className="btn btn-danger mt-3">
+              Back to home page
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

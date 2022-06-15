@@ -5,7 +5,7 @@ import { fetchPosts as fetchPostsService } from "../../../services/posts.service
 import { fetchPostsError, fetchPostsSuccess } from "./post.action";
 import { takeLatest } from "redux-saga/effects";
 
-function* fetchPosts({ type, payload }: IAction): any {
+export function* fetchPosts({ type, payload }: IAction): any {
   try {
     const response = yield fetchPostsService();
     yield put(fetchPostsSuccess(response));

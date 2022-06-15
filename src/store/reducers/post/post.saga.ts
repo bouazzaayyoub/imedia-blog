@@ -13,7 +13,7 @@ import {
 import { FETCH_POST } from "./post.types";
 import { fetchCommentsByPostId } from "../../../services/comment.service";
 
-function* fetchPostById({ type, payload }: IAction): any {
+export function* fetchPostById({ type, payload }: IAction): any {
   try {
     const post = yield fetchPostByIdService(payload.id);
     const comments = yield fetchCommentsByPostId(payload.id);

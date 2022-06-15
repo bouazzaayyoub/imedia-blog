@@ -8,11 +8,12 @@ import {
   errorMessageSelector,
 } from "../../store/reducers/listPosts/post.selector";
 
-export default function Posts() {
+export default function Posts(): JSX.Element {
   const dispatch = useDispatch();
 
   const posts = useSelector(postSelector);
   const isloading = useSelector(isLoadingSelector);
+  const errorMessage = useSelector(errorMessageSelector);
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -77,6 +78,15 @@ export default function Posts() {
               </div>
             </Link>
           ))}
+          {errorMessage && (
+            <div className="col-12 text-center">
+              <h2>sorry, something is down!</h2>
+              <p>
+                Either something went wrong or this page doesn't exist anymore.
+                Please, try later!
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
